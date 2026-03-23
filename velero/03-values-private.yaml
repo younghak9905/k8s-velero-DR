@@ -1,15 +1,15 @@
 image:
-  repository: "{private_registry}/{velero_server_repository}"
-  tag: "{velero_server_image_tag}"
+  repository: "{private_registry}/velero/velero"
+  tag: v1.17.1
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - "{image_pull_secret_name}"
+  - lyh-secret-ncr
 
 kubectl:
   image:
-    repository: "{private_registry}/{kubectl_repository}"
-    tag: "{kubectl_image_tag}"
+    repository: "{private_registry}/bitnamilegacy/kubectl"
+    tag: "1.31"
 
 upgradeCRDs: true
 cleanUpCRDs: false
@@ -22,7 +22,7 @@ defaultVolumesToFsBackup: true
 
 initContainers:
   - name: velero-plugin-for-aws
-    image: "{private_registry}/{velero_plugin_repository}:{velero_plugin_image_tag}"
+    image: "{private_registry}/velero/velero-plugin-for-aws:v1.9.2"
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
