@@ -3,12 +3,12 @@ clusterDomain: cluster.local
 nginxGateway:
   gatewayClassName: nginx
   replicas: 2
-  imagePullSecret: lyh-secret-ncr
+  imagePullSecret: "{image_pull_secret_name}"
   imagePullSecrets:
-    - lyh-secret-ncr
+    - "{image_pull_secret_name}"
   image:
-    repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/nginx/nginx-gateway-fabric
-    tag: v2.2.1
+    repository: "{private_registry}/{nginx_gateway_repository}"
+    tag: "{nginx_gateway_image_tag}"
     pullPolicy: IfNotPresent
   service:
     annotations: {}
@@ -17,12 +17,12 @@ nginx:
   kind: deployment
   replicas: 2
   image:
-    repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/nginx/nginx-gateway-fabric/nginx
-    tag: v2.2.1
+    repository: "{private_registry}/{nginx_data_plane_repository}"
+    tag: "{nginx_data_plane_image_tag}"
     pullPolicy: IfNotPresent
-  imagePullSecret: lyh-secret-ncr
+  imagePullSecret: "{image_pull_secret_name}"
   imagePullSecrets:
-    - lyh-secret-ncr
+    - "{image_pull_secret_name}"
   service:
     type: LoadBalancer
     externalTrafficPolicy: Local
