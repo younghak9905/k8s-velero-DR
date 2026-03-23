@@ -11,8 +11,8 @@ kubectl apply -f .\lyh-ns\03-db-secret.yaml
 kubectl apply -f .\lyh-ns\04-storageclass.yaml
 kubectl apply -f .\lyh-ns\05-db.yaml
 kubectl apply -f .\lyh-ns\06-web-configmap.yaml
-kubectl apply -f .\lyh-ns\07-web.yaml
-kubectl apply -f .\lyh-ns\08-was.yaml
+kubectl apply -f .\lyh-ns\07-was.yaml
+kubectl apply -f .\lyh-ns\08-web.yaml
 kubectl apply -f .\lyh-ns\09-referencegrant.yaml
 ```
 

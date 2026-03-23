@@ -31,7 +31,7 @@
 
 배포 순서는 `kyverno`를 먼저 적용하는 것을 기준으로 합니다. 이미지 경로 rewrite와 `imagePullSecrets` 자동 주입 정책이 먼저 준비되어 있어야 이후 Helm 기반 컴포넌트와 애플리케이션 배포 시 정책 반영 여부를 일관되게 검증할 수 있기 때문입니다.
 
-각 네임스페이스는 공통 image pull secret인 `lyh-secret-ncr`을 먼저 생성한 뒤 배포합니다. `nginx-gateway`, `kyverno`, `velero`는 Private 환경을 고려해 values 파일을 별도로 두었고, 바로 적용 가능한 형태로 정리했습니다. `lyh-ns`는 DB를 먼저 배포한 뒤 web, was, ReferenceGrant 순서로 적용합니다.
+각 네임스페이스는 공통 image pull secret인 `lyh-secret-ncr`을 먼저 생성한 뒤 배포합니다. `nginx-gateway`, `kyverno`, `velero`는 Private 환경을 고려해 values 파일을 별도로 두었고, 바로 적용 가능한 형태로 정리했습니다. `lyh-ns`는 DB를 먼저 배포한 뒤 was, web, ReferenceGrant 순서로 적용합니다.
 
 대표적인 적용 흐름은 아래와 같습니다.
 
