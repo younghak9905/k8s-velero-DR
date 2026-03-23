@@ -18,6 +18,8 @@
 
 트래픽 흐름은 `Gateway API -> HTTPRoute -> Service(web/was) -> Pod` 구조입니다. 데이터 계층인 DB는 `StatefulSet`으로 구성했고, 다른 애플리케이션보다 먼저 배포되도록 순서를 조정했습니다. Gateway 관련 리소스는 `nginx-gateway`에서 관리하지만, `ReferenceGrant`는 서비스 소유 네임스페이스인 `lyh-ns`에서 관리합니다. 이유는 이 리소스가 외부 네임스페이스의 라우팅 리소스가 `lyh-ns`의 Service를 참조해도 된다는 허용 선언이기 때문입니다.
 
+![Architecture](./image.png)
+
 ## 디렉터리 구성
 
 - `lyh-ns`: 3-tier 애플리케이션, DB Secret, StorageClass, ReferenceGrant
