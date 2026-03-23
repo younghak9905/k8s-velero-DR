@@ -49,11 +49,11 @@ kubectl apply -f .\velero\
 
 `nginx-gateway`, `kyverno`, `velero`는 Helm chart를 그대로 외부에서 설치하는 방식이 아니라, chart를 렌더링한 뒤 이미지 경로를 내부 레지스트리 기준으로 바꾸어 배포하는 방식을 기준으로 합니다. 이 과정에는 이미지 목록 추출, 내부 레지스트리 업로드, values 또는 렌더링 YAML 수정, 최종 `kubectl apply` 또는 `helm upgrade --install` 적용이 포함됩니다.
 
-자세한 절차는 [private-registry-workflow.md](C:/Users/user/OneDrive/바탕%20화면/이영학/공부/velero%20project/private-registry-workflow.md)에 정리되어 있습니다.
+자세한 절차는 [private-registry-workflow.md]에 정리되어 있습니다.
 
 ## Velero와 Kyverno
 
-Velero는 `Deployment` 형태의 서버 Pod와 `node-agent` 기반 파일 백업 구조를 전제로 작성했습니다. 객체 스토리지는 S3 호환 스토리지를 기준으로 values 파일이 준비되어 있습니다. Kyverno는 Pod 생성 시 이미지 레지스트리 rewrite와 `imagePullSecrets` 자동 주입을 검증할 수 있도록 `ClusterPolicy`와 테스트 YAML을 함께 제공합니다.
+Velero는 `Deployment` 형태의 서버 Pod와 `node-agent` 기반 파일 백업 구조를 전제로 작성했습니다. 객체 스토리지는 S3 호환 스토리지를 기준으로 values 파일이 준비되어 있으며, 실제 백업 실행은 MGMT 서버에서 `velero` CLI를 통해 수행하는 운영 흐름을 기준으로 문서를 정리했습니다. Kyverno는 Pod 생성 시 이미지 레지스트리 rewrite와 `imagePullSecrets` 자동 주입을 검증할 수 있도록 `ClusterPolicy`와 테스트 YAML을 함께 제공합니다.
 
 ## 확인 포인트
 
