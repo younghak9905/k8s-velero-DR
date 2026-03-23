@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lyh-ns
+  labels:
+    project: velero-kyverno-demo
+    registry-rewrite: enabled

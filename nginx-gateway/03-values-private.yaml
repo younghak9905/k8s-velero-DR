@@ -1,0 +1,28 @@
+clusterDomain: cluster.local
+
+nginxGateway:
+  gatewayClassName: nginx
+  replicas: 2
+  imagePullSecret: lyh-secret-ncr
+  imagePullSecrets:
+    - lyh-secret-ncr
+  image:
+    repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/nginx/nginx-gateway-fabric
+    tag: v2.2.1
+    pullPolicy: IfNotPresent
+  service:
+    annotations: {}
+
+nginx:
+  kind: deployment
+  replicas: 2
+  image:
+    repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/nginx/nginx-gateway-fabric/nginx
+    tag: v2.2.1
+    pullPolicy: IfNotPresent
+  imagePullSecret: lyh-secret-ncr
+  imagePullSecrets:
+    - lyh-secret-ncr
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: Local

@@ -1,0 +1,9 @@
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: lyh-demo-restore-sample
+  namespace: velero
+spec:
+  backupName: lyh-demo-manual-backup
+  includedNamespaces:
+    - lyh-ns

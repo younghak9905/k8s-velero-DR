@@ -1,0 +1,13 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: lyh-demo-daily
+  namespace: velero
+spec:
+  schedule: "0 2 * * *"
+  template:
+    includedNamespaces:
+      - lyh-ns
+    defaultVolumesToFsBackup: true
+    storageLocation: default
+    ttl: 168h0m0s

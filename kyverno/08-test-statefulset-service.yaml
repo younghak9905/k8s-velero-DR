@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kyverno-test-statefulset-existing-pullsecret
+  namespace: "{target_namespace}"
+spec:
+  clusterIP: None
+  selector:
+    app: kyverno-test-statefulset-existing-pullsecret
+  ports:
+    - name: dummy
+      port: 80
+      targetPort: 80

@@ -1,0 +1,52 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: rewrite-registry-and-inject-pullsecret
+  annotations:
+    pod-policies.kyverno.io/autogen-controllers: Deployment,StatefulSet,DaemonSet,Job,CronJob,ReplicaSet,ReplicationController
+spec:
+  background: false
+  rules:
+    - name: rewrite-image-registry
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - lyh-ns
+                - nginx
+                - nginx-gateway
+                - kyverno
+                - velero
+      mutate:
+        foreach:
+          - list: "request.object.spec.containers"
+            patchStrategicMerge:
+              spec:
+                containers:
+                  - name: "{{ element.name }}"
+                    image: "{{ regex_replace_all('^{source_registry}\\/(.*)$', '{{ element.image }}', '{target_registry}/$1') }}"
+          - list: "request.object.spec.initContainers || `[]`"
+            patchStrategicMerge:
+              spec:
+                initContainers:
+                  - name: "{{ element.name }}"
+                    image: "{{ regex_replace_all('^{source_registry}\\/(.*)$', '{{ element.image }}', '{target_registry}/$1') }}"
+    - name: inject-imagepullsecret
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - lyh-ns
+                - nginx
+                - nginx-gateway
+                - kyverno
+                - velero
+      mutate:
+        patchStrategicMerge:
+          spec:
+            imagePullSecrets:
+              - name: "{image_pull_secret_name}"

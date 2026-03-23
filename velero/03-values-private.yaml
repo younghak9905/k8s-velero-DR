@@ -1,0 +1,57 @@
+image:
+  repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/velero/velero
+  tag: v1.17.1
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - lyh-secret-ncr
+
+kubectl:
+  image:
+    repository: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/bitnamilegacy/kubectl
+    tag: "1.31"
+
+upgradeCRDs: true
+cleanUpCRDs: false
+
+deployNodeAgent: true
+snapshotsEnabled: false
+backupsEnabled: true
+
+defaultVolumesToFsBackup: true
+
+initContainers:
+  - name: velero-plugin-for-aws
+    image: private-df37f1bc-kr2-registry.container.nhncloud.com/ta-lyh-k8s-ncr/velero/velero-plugin-for-aws:v1.9.2
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+
+credentials:
+  useSecret: true
+  name: velero-credentials
+  secretContents:
+    cloud: |
+      [default]
+      aws_access_key_id=CHANGE_ME_ACCESS_KEY
+      aws_secret_access_key=CHANGE_ME_SECRET_KEY
+
+configuration:
+  uploaderType: restic
+  defaultBackupStorageLocation: default
+  backupStorageLocation:
+    - name: default
+      provider: aws
+      bucket: ta-lyh-obs
+      default: true
+      accessMode: ReadWrite
+      credential:
+        name: velero-credentials
+        key: cloud
+      config:
+        region: kr2
+        s3ForcePathStyle: "true"
+        s3Url: https://kr2-api-object-storage.nhncloudservice.com
+        checksumAlgorithm: ""
+  volumeSnapshotLocation: []

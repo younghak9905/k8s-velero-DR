@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: lyh-ns
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location / {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+      }
+    }
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>3-tier Demo</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f6f8fb; color: #1f2937; }
+        .card { max-width: 720px; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(15,23,42,.08); }
+        code { background: #eef2ff; padding: 2px 6px; border-radius: 6px; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <h1>3-tier demo</h1>
+        <p>Routes are handled by Gateway API.</p>
+        <p><code>/</code> goes to web and <code>/api</code> goes to was.</p>
+      </div>
+    </body>
+    </html>

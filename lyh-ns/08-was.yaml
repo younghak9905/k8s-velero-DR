@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: was
+  namespace: lyh-ns
+spec:
+  selector:
+    app: was
+  ports:
+    - name: http
+      port: 5678
+      targetPort: 5678
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: was
+  namespace: lyh-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: was
+  template:
+    metadata:
+      labels:
+        app: was
+        tier: application
+        registry-rewrite: enabled
+    spec:
+      imagePullSecrets:
+        - name: lyh-secret-ncr
+      containers:
+        - name: was
+          image: hashicorp/http-echo:1.0.0
+          args:
+            - -listen=:5678
+            - -text={"service":"was","dbHost":"db.lyh-ns.svc.cluster.local","status":"ok"}
+          ports:
+            - containerPort: 5678
+              name: http
