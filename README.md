@@ -16,9 +16,15 @@
 
 ## 아키텍처
 
-트래픽 흐름은 `Gateway API -> HTTPRoute -> Service(web/was) -> Pod` 구조입니다. 데이터 계층인 DB는 `StatefulSet`으로 구성했고, 다른 애플리케이션보다 먼저 배포되도록 순서를 조정했습니다. Gateway 관련 리소스는 `nginx-gateway`에서 관리하지만, `ReferenceGrant`는 서비스 소유 네임스페이스인 `lyh-ns`에서 관리합니다. 이유는 이 리소스가 외부 네임스페이스의 라우팅 리소스가 `lyh-ns`의 Service를 참조해도 된다는 허용 선언이기 때문입니다.
+트래픽 흐름은 `Gateway API -> HTTPRoute -> Service(web/was) -> Pod` 구조입니다. 데이터 계층인 DB는 `StatefulSet`으로 구성했고, 다른 애플리케이션보다 먼저 배포되도록 순서를 조정했습니다.
 
-![Architecture](./image.png)
+또한 Ingress Nginx 사용을 지양하기 위해 Nginx-Gateway를 사용합니다. Private VPC에서 Private NKS 구축하였으며, Public 단에서는 API Gateway를 구축하여 Internal LB를 타겟으로 프록시 합니다.
+
+멀티 리전간 NCR과 OBS는 복제 설정하여 사용 합니다.
+
+
+
+![alt text](image.png)
 
 ## 디렉터리 구성
 
