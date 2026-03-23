@@ -33,7 +33,7 @@
 - `nginx-gateway`: Gateway, HTTPRoute, 컨트롤러용 Helm values
 - `kyverno`: Kyverno 설치 values, ClusterPolicy, 정책 검증용 테스트 YAML
 - `velero`: Velero 설치 values, Backup, Schedule, Restore
-- `문서`: 프로젝트 관련 산출 문서
+
 
 ## 배포 원칙
 
